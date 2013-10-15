@@ -28,7 +28,7 @@
 	//if you are using for full screen images, you'll need a smaller memory cache than the defaults,
 	//otherwise the cached images will get you out of memory quickly
 	//objMan = [[HJObjManager alloc] initWithLoadingBufferSize:6 memCacheSize:1];
-	
+	//Just checking
 	// Create a file cache for the object manager to use
 	// A real app might do this durring startup, allowing the object manager and cache to be shared by several screens
 	NSString* cacheDirectory = [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/imgcache/flickr/"] ;
