@@ -20,11 +20,6 @@ NSString* HJMOBigFileCache_trimDateKey = @"HJMOBigFileCacheTrimDate";
 @synthesize lastTrimDate;
 @synthesize lastTrimDirNum;
 
-- (void) dealloc {
-	[lastTrimDirNum release];
-	[lastTrimDate release];	
-	[super dealloc];
-}
 
 -(void)createCacheDirsIfNeeded {
 	[super createCacheDirsIfNeeded];
@@ -65,29 +60,29 @@ NSString* HJMOBigFileCache_trimDateKey = @"HJMOBigFileCacheTrimDate";
  This only trims 1/10th of the cache at a time, and does this no more than once every 1hrs.
  */
 -(void)trimCache {
-	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+	@autoreleasepool {
 	
-	self.lastTrimDirNum = (NSNumber*) [[NSUserDefaults standardUserDefaults] objectForKey:HJMOBigFileCache_trimDirKey];
-	self.lastTrimDate = (NSDate*) [[NSUserDefaults standardUserDefaults] objectForKey:HJMOBigFileCache_trimDateKey];
-	NSDate* now = [[[NSDate alloc] init] autorelease];
-	
-	if (lastTrimDate==nil || [now timeIntervalSinceDate:lastTrimDate]>60*60*1) {
-		if (lastTrimDirNum==nil) {
-			self.lastTrimDirNum = [NSNumber numberWithInt:-1];
-		}
-		int num = [lastTrimDirNum intValue];
-		num++; 
-		if (num>=10) { num=0; }
-		NSString* nextTrimPath = [NSString stringWithFormat:@"%@%i/",readyPath,num];
-		[self trimCacheDir:nextTrimPath];
+		self.lastTrimDirNum = (NSNumber*) [[NSUserDefaults standardUserDefaults] objectForKey:HJMOBigFileCache_trimDirKey];
+		self.lastTrimDate = (NSDate*) [[NSUserDefaults standardUserDefaults] objectForKey:HJMOBigFileCache_trimDateKey];
+		NSDate* now = [[NSDate alloc] init];
 		
-		self.lastTrimDate = now;
-		self.lastTrimDirNum = [NSNumber numberWithInt:num];
-		[self updateLastTrimState];
-	}
-	[self performSelectorOnMainThread:@selector(updateLastTrimState) withObject:nil waitUntilDone:YES];
+		if (lastTrimDate==nil || [now timeIntervalSinceDate:lastTrimDate]>60*60*1) {
+			if (lastTrimDirNum==nil) {
+				self.lastTrimDirNum = [NSNumber numberWithInt:-1];
+			}
+			int num = [lastTrimDirNum intValue];
+			num++; 
+			if (num>=10) { num=0; }
+			NSString* nextTrimPath = [NSString stringWithFormat:@"%@%i/",readyPath,num];
+			[self trimCacheDir:nextTrimPath];
+			
+			self.lastTrimDate = now;
+			self.lastTrimDirNum = [NSNumber numberWithInt:num];
+			[self updateLastTrimState];
+		}
+		[self performSelectorOnMainThread:@selector(updateLastTrimState) withObject:nil waitUntilDone:YES];
 	
-	[pool release];
+	}
 }
 
 

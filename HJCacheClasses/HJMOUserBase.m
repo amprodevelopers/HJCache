@@ -19,10 +19,6 @@
 
 -(void) dealloc {
 	[moHandler removeUser:self];
-	[moHandler release];
-	[oid release];
-	[url release];
-	[super dealloc];
 }
 
 -(void) changeManagedObjStateFromLoadedToReady {

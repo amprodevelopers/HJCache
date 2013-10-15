@@ -19,9 +19,9 @@
 
 
 -(void) viewDidLoad {
-	self.imgMan = [[[HJObjManager alloc] init] autorelease];
+	self.imgMan = [[HJObjManager alloc] init];
 	NSString* cacheDirectory = [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/imgcache/imgtable/"] ;
-	HJMOFileCache* fileCache = [[[HJMOFileCache alloc] initWithRootPath:cacheDirectory] autorelease];
+	HJMOFileCache* fileCache = [[HJMOFileCache alloc] initWithRootPath:cacheDirectory];
 	self.imgMan.fileCache = fileCache;
 }
 
@@ -79,11 +79,6 @@
 
 
 
-- (void)dealloc {
-	self.content = nil;
-	self.imgMan = nil;
-    [super dealloc];
-}
 
 
 @end

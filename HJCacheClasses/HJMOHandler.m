@@ -28,7 +28,7 @@
 
 
 -(HJMOHandler*)initWithOid:(id)oid_ url:(NSURL*)url_  objManager:objManager_{
-	[super init];
+	if (!(self = [super init])) return nil;
 	state = stateNew;
 	self.oid = oid_;
 	self.url = url_ ;
@@ -45,14 +45,7 @@
 	//NSLog(@"dealloc %@",self);
 	[urlConn cancel];
 	[self clearLoadingState];
-	[users release];
-	[url release];
-	[moReadyDataFilename release];
 	//NSLog(@"managed Obj retain count before handler dealloc %i",[managedObj retainCount]);
-	[managedObj release];
-	[ownPolicy release];
-	[oid release];
-	[super dealloc];
 }
 
 
@@ -130,12 +123,13 @@
 
 -(void)removeUser:(id<HJMOUser>)user {
 	[users removeObject:user];
-	[self retain]; //because the next line could dealloc self.
+    //ARC Changes
+    __strong HJMOHandler *strongReference = self;
 	user.moHandler = nil;
 	if (![self isInUse]) {
 		[self becameNotInUse];
 	}
-	[self autorelease];
+    strongReference = nil;
 }
 
 
@@ -261,7 +255,6 @@
 										  cachePolicy:NSURLRequestReloadIgnoringLocalCacheData 
 								          timeoutInterval:policy.urlTimeoutTime];
 	self.urlConn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-	[urlConn release];
 	if (urlConn==nil) {
 		NSLog(@"HJMOHandler nil URLConnection for %@",url);
 		state=stateFailed;
@@ -333,7 +326,7 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    [self retain]; //ensure that self isn't released in this method when the connection is finished with it.
+     //ensure that self isn't released in this method when the connection is finished with it.
 	//NSLog(@"finishedLoading %@",self);
 	state = stateLoaded;
 	if (moLoadingDataFile) {
@@ -357,7 +350,6 @@
 	if (state==stateReady || state==stateLoaded) {
 		[objManager addHandlerToMemCache:self];
 	}
-    [self release];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
@@ -374,7 +366,7 @@
 
 
 -(NSString*)description {
-	return [NSString stringWithFormat:@"HJMOHandler %@ users:%i retains:%i",oid,[users count],[self retainCount]];
+	return [NSString stringWithFormat:@"HJMOHandler %@ users:%i retains:%li",oid,[users count], CFGetRetainCount((__bridge CFTypeRef)self)];
 }
 
 

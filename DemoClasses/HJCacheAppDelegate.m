@@ -36,7 +36,7 @@
 	//FlickrSearchTVC* flickrTVC = [[[FlickrSearchTVC alloc] initWithNibName:@"FlickrSearchTVC"
 	//																bundle:nil] autorelease];
 
-	RootViewController* rootVC = [[[RootViewController alloc] init] autorelease];
+	RootViewController* rootVC = [[RootViewController alloc] init];
 	rootVC.title = @"Demo Menu";
 	
 	navigationController = [[UINavigationController alloc] initWithRootViewController:rootVC];
@@ -47,7 +47,7 @@
 	
 	//*************************************************************
 	
-	[window addSubview:navigationController.view];
+	window.rootViewController = navigationController;
     [window makeKeyAndVisible];
 	
     return YES;
@@ -102,11 +102,6 @@
 }
 
 
-- (void)dealloc {
-	[navigationController release];
-	[window release];
-	[super dealloc];
-}
 
 
 @end

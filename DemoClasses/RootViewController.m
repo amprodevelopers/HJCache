@@ -38,7 +38,7 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
 	if (indexPath.row==0) {
@@ -61,14 +61,14 @@
     
 	if (indexPath.row==0) {
 		// this simple demo shows managed images being used to load, cache, and show images from Flickr
-		FlickrSearchTVC* flickrTVC = [[[FlickrSearchTVC alloc] initWithNibName:@"FlickrSearchTVC"
-																		bundle:nil] autorelease];
+		FlickrSearchTVC* flickrTVC = [[FlickrSearchTVC alloc] initWithNibName:@"FlickrSearchTVC"
+																		bundle:nil];
 		[self.navigationController pushViewController:flickrTVC animated:YES];
 
 		
 	} else if (indexPath.row==1) {
 		// this simple demo shows how managed images can be shared and reused in the same table
-		ImgTVC* imgTVC = [[[ImgTVC alloc] initWithNibName:@"ImgTVC" bundle:nil] autorelease];
+		ImgTVC* imgTVC = [[ImgTVC alloc] initWithNibName:@"ImgTVC" bundle:nil];
 		[self.navigationController pushViewController:imgTVC animated:YES];
 	}
 	
@@ -76,9 +76,6 @@
 
 
 
-- (void)dealloc {
-    [super dealloc];
-}
 
 
 @end

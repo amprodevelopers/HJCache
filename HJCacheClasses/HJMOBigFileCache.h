@@ -23,7 +23,7 @@
 	NSDate* lastTrimDate;
 }
 
-@property (retain) NSNumber* lastTrimDirNum;
-@property (retain) NSDate* lastTrimDate;
+@property (strong) NSNumber* lastTrimDirNum;
+@property (strong) NSDate* lastTrimDate;
 
 @end

@@ -13,19 +13,15 @@
 @implementation HJWeakMutableArray
 
 +(HJWeakMutableArray*) arrayWithCapacity:(int)capacity {
-	return [[[HJWeakMutableArray alloc] initWithCapacity:capacity] autorelease];
+	return [[HJWeakMutableArray alloc] initWithCapacity:capacity];
 }
 
 -(HJWeakMutableArray*) initWithCapacity:(int)capacity {
-	[super init];
-	array = [[NSMutableArray arrayWithCapacity:capacity] retain];
+	if (!(self = [super init])) return nil;
+	array = [NSMutableArray arrayWithCapacity:capacity];
 	return self;
 }
 
--(void) dealloc {
-	[array release];
-	[super dealloc];
-}
 	
 - (void)addObject:(id)anObject {
 	[array addObject:[NSValue valueWithNonretainedObject:anObject]];
@@ -63,7 +59,7 @@
 }
 
 - (NSEnumerator*)objectEnumerator {
-	return [[[HJWeakMutableArrayEnumerator alloc] initWithInternalArray:array] autorelease];
+	return [[HJWeakMutableArrayEnumerator alloc] initWithInternalArray:array];
 }
 
 - (NSString*)description {
@@ -72,7 +68,8 @@
 	for (NSValue* v in array) {
 		[s appendString:[[v nonretainedObjectValue] description]];
 		[s appendString:@"  "];
-		[s appendFormat:@"%u",[[v nonretainedObjectValue] retainCount]];
+        //ARC Changes
+		[s appendFormat:@"%ld", CFGetRetainCount((__bridge CFTypeRef)[v nonretainedObjectValue])];
 		[s appendString:@"\n"];
 	}
 	[s appendString:@"}"];
@@ -113,14 +110,9 @@
 
 -(HJWeakMutableArrayEnumerator*)initWithInternalArray:(NSArray*)array {
 	arrayEnum = [array objectEnumerator];
-	[arrayEnum retain];
 	return self;
 }
 
--(void)dealloc {
-	[arrayEnum release];
-	[super dealloc];
-}
 
 -(id)nextObject {
 	NSValue* val = (NSValue*)[arrayEnum nextObject];

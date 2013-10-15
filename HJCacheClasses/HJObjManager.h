@@ -36,23 +36,23 @@
  An options file cache for this object manager. If you want a file cache, just assign
  this right after instanciation.
  */
-@property (nonatomic, retain) HJMOFileCache* fileCache;
+@property (nonatomic, strong) HJMOFileCache* fileCache;
 
 /*
  Used to tweak the behavoir of this object manager. Its usually fine to just 
  use the default one the object manager creates for itself.
  */
-@property (nonatomic, retain) HJMOPolicy* policy;
+@property (nonatomic, strong) HJMOPolicy* policy;
 
 /*
  Internal state. These are the HJMOHandlers that are currently actively loading.
  */
-@property (nonatomic, retain) HJCircularBuffer* loadingHandlers;
+@property (nonatomic, strong) HJCircularBuffer* loadingHandlers;
 
 /*
  Internal state. This is the memory cache of managed objects
  */
-@property (nonatomic, retain) HJCircularBuffer* memCache;
+@property (nonatomic, strong) HJCircularBuffer* memCache;
 
 
 /*

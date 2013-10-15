@@ -23,13 +23,13 @@
 
 +(HJMOPolicy*) smallImgFastScrollLRUCachePolicy {
 	//this is the default policy settings.
-	HJMOPolicy* policy = [[[HJMOPolicy alloc] init] autorelease];
+	HJMOPolicy* policy = [[HJMOPolicy alloc] init];
 	return policy;
 }
 
 /** default policy is good for small images, fast scrolling, async updates, LRU file cache */
 -(HJMOPolicy*)init {
-	[super init];
+	if (!(self = [super init])) return nil;
 	self.urlTimeoutTime = 30;
 	self.readsUpdateFileDate = YES;
 	

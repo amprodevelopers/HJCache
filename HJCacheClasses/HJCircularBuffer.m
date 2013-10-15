@@ -13,12 +13,12 @@
 @implementation HJCircularBuffer
 
 +(HJCircularBuffer*)bufferWithCapacity:(int)capacity {
-	return [[[HJCircularBuffer alloc] initWithCapacity:capacity] autorelease];
+	return [[HJCircularBuffer alloc] initWithCapacity:capacity];
 }
 	
 -(HJCircularBuffer*)initWithCapacity:(int)capacity {
-	[super init];
-	buffer = [[NSMutableArray arrayWithCapacity:capacity] retain];
+	if (!(self = [super init])) return nil;
+	buffer = [NSMutableArray arrayWithCapacity:capacity];
 	nextIndex=0;
 	NSNull* nullObj = [NSNull null];
 	for (int i=0; i<capacity; i++) {
@@ -27,10 +27,6 @@
 	return self;
 }
 	
--(void)dealloc {
-	[buffer release];
-	[super dealloc];
-}
 
 -(int)length {
 	return [buffer count];
@@ -54,11 +50,12 @@
 		return nil; 
 	}
 	id oldObj = [buffer objectAtIndex:i];
-	if (oldObj!=[NSNull null]) {
+    //ARC Changes
+	//if (oldObj!=[NSNull null]) {
 		//because when old objObj replaced in the buffer, it will be released and might dealloc:
-		[oldObj retain];
-		[oldObj autorelease];
-	}
+		//[oldObj retain];
+		//[oldObj autorelease];
+	//}
 	[buffer replaceObjectAtIndex:nextIndex withObject:obj];
 	if (oldObj!=[NSNull null]) {
 		return oldObj;

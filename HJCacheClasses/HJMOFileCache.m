@@ -20,12 +20,11 @@
 
 
 -(HJMOFileCache*)initWithRootPath:(NSString*)root {
-	[super init];
+	if (!(self = [super init])) return nil;
 	isCounting = NO;
 	fileCount = 0;
 	byteCount = 0;
 	rootPath = root;
-	[rootPath retain];
 	
 	fileCountLimit = 0;
 	fileAgeLimit = 0;
@@ -34,10 +33,10 @@
 		[[NSFileManager defaultManager] createDirectoryAtPath:rootPath withIntermediateDirectories:YES attributes:nil error:nil];
 	}
 	
-	loadingPath = [[NSString stringWithFormat:@"%@/loading/",rootPath] retain];
-	readyPath = [[NSString stringWithFormat:@"%@/ready/",rootPath] retain];
+	loadingPath = [NSString stringWithFormat:@"%@/loading/",rootPath];
+	readyPath = [NSString stringWithFormat:@"%@/ready/",rootPath];
 	[self createCacheDirsIfNeeded];
-	countsPath = [[NSString stringWithFormat:@"%@/counts.plist",rootPath] retain];
+	countsPath = [NSString stringWithFormat:@"%@/counts.plist",rootPath];
 
 	//delete any half loaded files
 	[self deleteAllFilesInDir:loadingPath];
@@ -50,7 +49,7 @@
 				   fileCountLimit:(long)countLimit
 					 fileAgeLimit:(NSTimeInterval)ageLimit  {
 
-	[self initWithRootPath:root];
+	if (!(self = [self initWithRootPath:root])) return nil;
 	isCounting = isCounting_;
 	fileCountLimit = countLimit;
 	fileAgeLimit = ageLimit;
@@ -62,14 +61,6 @@
 }
 
 
--(void)dealloc {
-	[rootPath release];
-	[loadingPath release];
-	[readyPath release];
-	[countsPath release];
-	[maintenanceThread release];
-	[super dealloc];
-}
 
 
 -(void)createCacheDirsIfNeeded {
@@ -159,7 +150,7 @@
 
 
 -(void) saveCounts {
-	NSMutableDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys:
+	NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 								 [NSNumber numberWithLongLong:byteCount],@"bytes",
 								 [NSNumber numberWithLong:fileCount],@"files",nil];
 	[dict writeToFile:countsPath atomically:YES];
@@ -266,13 +257,13 @@ int fileAgeCompareFunction(id obj1, id obj2, void *context) {
 }
 
 -(void)trimCache {
-	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-	[self trimCacheDir:readyPath];
-	[pool release];
+	@autoreleasepool {
+		[self trimCacheDir:readyPath];
+	}
 }
 
 -(void)trimCacheUsingBackgroundThread {
-	self.maintenanceThread = [[[NSThread alloc] initWithTarget:self selector:@selector(trimCache) object:nil] autorelease];
+	self.maintenanceThread = [[NSThread alloc] initWithTarget:self selector:@selector(trimCache) object:nil];
 	[maintenanceThread start];
 }
 

@@ -17,8 +17,8 @@
 	
 }
 
-@property (nonatomic, retain) UILabel* text1;
-@property (nonatomic, retain) HJManagedImageV* img;
+@property (nonatomic, strong) UILabel* text1;
+@property (nonatomic, strong) HJManagedImageV* img;
 
 
 @end

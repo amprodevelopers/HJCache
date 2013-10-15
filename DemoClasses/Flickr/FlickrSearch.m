@@ -16,25 +16,14 @@
 
 
 - (id) init {
-	[super init];
+	if (!(self = [super init])) return nil;
 	imageURLs = [NSMutableArray arrayWithCapacity:100];	
-	[imageURLs retain];
 	imageTitles = [NSMutableArray arrayWithCapacity:100];	
-	[imageTitles retain];
 	thumbnailViews = [NSMutableArray arrayWithCapacity:100];
-	[thumbnailViews retain];
 	
 	return self;
 }
 
-- (void) dealloc {
-	[imageURLs release];
-	[imageTitles release];
-	[thumbnailViews release];
-	[parser release];
-	[super dealloc];
-	
-}
 
 - (int) numberOfImages {
 	return [imageURLs count];
@@ -69,11 +58,11 @@
 	//[replyString release];
 	
 	
-	self.searchResults = [[[NSMutableArray alloc] initWithCapacity:100] autorelease];
+	self.searchResults = [[NSMutableArray alloc] initWithCapacity:100];
 	
 	//Hmmm, the parser init line seems to be causing a small leak
 	//http://stackoverflow.com/questions/1598928/nsxmlparser-leaking
-	self.parser = [[[NSXMLParser alloc] initWithContentsOfURL:url] autorelease];
+	self.parser = [[NSXMLParser alloc] initWithContentsOfURL:url];
 	
 	[parser setDelegate:self];
 	[parser parse];

@@ -40,10 +40,6 @@
 
 - (void)dealloc {
 	[self clear];
-	self.callbackOnCancel=nil;
-	self.callbackOnSetImage=nil;
-	self.loadingWheel=nil;
-    [super dealloc];
 	//NSLog(@"ManagedImage dealloc");
 }
 
@@ -87,7 +83,6 @@
 
 -(void) managedObjFailed {
 	NSLog(@"moHandlerFailed %@",moHandler);
-	[image release];
 	image = nil;
 }
 
@@ -126,12 +121,10 @@
 		//when the same image is on the screen multiple times, an image that is alredy set might be set again with the same image.
 		return; 
 	}
-	[theImage retain];
-	[image release];
 	image = theImage;
 	
 	[imageView removeFromSuperview];
-	self.imageView = [[[UIImageView alloc] initWithImage:theImage] autorelease];
+	self.imageView = [[UIImageView alloc] initWithImage:theImage];
 	imageView.contentMode = UIViewContentModeScaleAspectFit;
 	imageView.autoresizingMask = ( UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight );
 	[self addSubview:imageView];
@@ -150,7 +143,7 @@
 
 -(void) showLoadingWheel {
 	[loadingWheel removeFromSuperview];
-	self.loadingWheel = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray] autorelease];
+	self.loadingWheel = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 	loadingWheel.center = self.center;
 	loadingWheel.hidesWhenStopped=YES;
 	[self addSubview:loadingWheel];
@@ -158,12 +151,13 @@
 }
 
 -(void) setCallbackOnImageTap:(id)obj method:(SEL)m {
+    
+    __unsafe_unretained HJManagedImageV *unSafe_unRetained_self = self;
+    
 	NSInvocation* invo = [NSInvocation invocationWithMethodSignature:[obj methodSignatureForSelector:m]]; 
 	[invo setTarget:obj];
 	[invo setSelector:m];
-	[invo setArgument:&self atIndex:2];
-	[invo retain];
-	[onImageTap release];
+	[invo setArgument:&unSafe_unRetained_self atIndex:2];
 	onImageTap = invo;
 	self.userInteractionEnabled=YES; //because it's NO in the initializer, but if we want to get a callback on tap, 
 									 //then need to get touch events.

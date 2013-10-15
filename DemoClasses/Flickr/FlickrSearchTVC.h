@@ -19,6 +19,6 @@
 	HJObjManager* objMan;
 }
 
-@property (nonatomic, retain) FlickrSearch* flickrSearch;
+@property (nonatomic, strong) FlickrSearch* flickrSearch;
 
 @end

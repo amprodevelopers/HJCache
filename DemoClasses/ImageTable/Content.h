@@ -21,10 +21,10 @@
 	
 }
 
-@property (nonatomic, retain) NSString* contentID;
-@property (nonatomic, retain) NSString* text;
-@property (nonatomic, retain) NSURL* imgURL;
-@property (nonatomic, retain) NSString* imgID;
+@property (nonatomic, strong) NSString* contentID;
+@property (nonatomic, strong) NSString* text;
+@property (nonatomic, strong) NSURL* imgURL;
+@property (nonatomic, strong) NSString* imgID;
 
 
 +(Content*) makeNextContent;

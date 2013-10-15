@@ -35,7 +35,7 @@
 @property long long byteCount;
 @property long fileCountLimit;
 @property NSTimeInterval fileAgeLimit;
-@property (nonatomic, retain) NSThread* maintenanceThread;
+@property (nonatomic, strong) NSThread* maintenanceThread;
 
 -(HJMOFileCache*)initWithRootPath:(NSString*)root;
 -(HJMOFileCache*)initWithRootPath:(NSString*)root 

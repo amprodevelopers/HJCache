@@ -52,11 +52,11 @@
 
 @property int modification;
 @property int index;
-@property (nonatomic, retain) UIImage* image;
-@property (nonatomic, retain) UIImageView* imageView;
-@property (nonatomic, retain) UIActivityIndicatorView* loadingWheel;
-@property (nonatomic, retain) id <HJManagedImageVDelegate> callbackOnSetImage;
-@property (nonatomic, retain) id <HJManagedImageVDelegate> callbackOnCancel;
+@property (nonatomic, strong) UIImage* image;
+@property (nonatomic, strong) UIImageView* imageView;
+@property (nonatomic, strong) UIActivityIndicatorView* loadingWheel;
+@property (nonatomic, strong) id <HJManagedImageVDelegate> callbackOnSetImage;
+@property (nonatomic, strong) id <HJManagedImageVDelegate> callbackOnCancel;
 
 -(void) clear;
 -(void) markCancelled;

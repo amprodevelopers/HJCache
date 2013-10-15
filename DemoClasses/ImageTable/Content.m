@@ -22,7 +22,7 @@ static int nextContentID = 0;
 	int imgNum = (rand()%3);
 	//NSLog(@"imgNum %i",imgNum);
 	
-	Content* c = [[[Content alloc] init] autorelease];
+	Content* c = [[Content alloc] init];
 	c.contentID = [NSString stringWithFormat:@"%i",nextContentID];
 	c.text = [NSString stringWithFormat:@"Content %@ img %i",c.contentID, imgNum];
 	c.imgID = [NSString stringWithFormat:@"%i",imgNum];
@@ -41,13 +41,5 @@ static int nextContentID = 0;
 	return c;
 }
 
--(void)dealloc {
-	[contentID release];
-	[text release];
-	[imgURL release];
-	//NSLog(@"imgID rt %i",[imgID retainCount]);
-	[imgID release];
-	[super dealloc];
-}
 
 @end

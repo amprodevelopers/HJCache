@@ -19,7 +19,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	self.flickrSearch = [[[FlickrSearch alloc] init] autorelease];
+	self.flickrSearch = [[FlickrSearch alloc] init];
 	self.tableView.rowHeight = 80;
 	
 	// Create the object manager
@@ -32,7 +32,7 @@
 	// Create a file cache for the object manager to use
 	// A real app might do this durring startup, allowing the object manager and cache to be shared by several screens
 	NSString* cacheDirectory = [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/imgcache/flickr/"] ;
-	HJMOFileCache* fileCache = [[[HJMOFileCache alloc] initWithRootPath:cacheDirectory] autorelease];
+	HJMOFileCache* fileCache = [[HJMOFileCache alloc] initWithRootPath:cacheDirectory];
 	objMan.fileCache = fileCache;
 	
 	// Have the file cache trim itself down to a size & age limit, so it doesn't grow forever
@@ -43,10 +43,6 @@
 }
 
 
-- (void)dealloc {
-	[objMan release];
-    [super dealloc];
-}
 
 
 
@@ -72,10 +68,10 @@
 	HJManagedImageV* mi;
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 		
 		//Create a managed image view and add it to the cell (layout is very naieve)
-		mi = [[[HJManagedImageV alloc] initWithFrame:CGRectMake(243,2,75,75)] autorelease];
+		mi = [[HJManagedImageV alloc] initWithFrame:CGRectMake(243,2,75,75)];
 		mi.tag = 999;
 		[cell addSubview:mi];
 		

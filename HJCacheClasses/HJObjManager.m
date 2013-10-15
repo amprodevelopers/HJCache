@@ -23,7 +23,7 @@
 }
 
 -(HJObjManager*) initWithLoadingBufferSize:(int)loadingBufferSize memCacheSize:(int)memCacheSize {
-	[super init];
+	if (!(self = [super init])) return nil;
 	self.policy = [HJMOPolicy smallImgFastScrollLRUCachePolicy];
 	self.loadingHandlers = [HJCircularBuffer bufferWithCapacity:loadingBufferSize];
 	self.memCache = [HJCircularBuffer bufferWithCapacity:memCacheSize];
@@ -38,12 +38,6 @@
 	// object manager itself is dealloced.
 	[self cancelLoadingObjects];
 	
-	self.loadingHandlers=nil;
-	self.memCache=nil;
-	self.policy=nil;
-	[flyweightManagedState release];
-	self.fileCache=nil;
-	[super dealloc];
 }
 
 /* 
@@ -118,9 +112,6 @@
 		[bumpedHandler cancelLoading]; //usually nil, but could be non nil when scrolling fast
 	}
 	
-	if (handlerWasAllocedInThisCall) {
-		[handler release];
-	}
 	
 	return YES; //yes this object is now being managed. only NO if misused.
 }

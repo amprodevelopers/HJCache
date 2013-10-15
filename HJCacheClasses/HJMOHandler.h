@@ -31,20 +31,20 @@
 	NSFileHandle* moLoadingDataFile;
 	id managedObj;
 	HJWeakMutableArray* users;
-	HJObjManager* objManager;
+	HJObjManager* __weak objManager;
 	HJMOPolicy* ownPolicy;
 }
 
 @property (readonly) enum HJMOState state;
-@property (nonatomic, retain) id oid;
-@property (nonatomic, retain) NSURL* url;
-@property (nonatomic, retain) NSURLConnection* urlConn;
-@property (nonatomic, retain) NSData* moData;
-@property (nonatomic, retain) NSFileHandle* moLoadingDataFile;
-@property (nonatomic, retain) NSString* moReadyDataFilename;
-@property (nonatomic, retain) id managedObj;
-@property (nonatomic, assign) HJObjManager* objManager;
-@property (nonatomic, retain) HJMOPolicy* ownPolicy;
+@property (nonatomic, strong) id oid;
+@property (nonatomic, strong) NSURL* url;
+@property (nonatomic, strong) NSURLConnection* urlConn;
+@property (nonatomic, strong) NSData* moData;
+@property (nonatomic, strong) NSFileHandle* moLoadingDataFile;
+@property (nonatomic, strong) NSString* moReadyDataFilename;
+@property (nonatomic, strong) id managedObj;
+@property (nonatomic, weak) HJObjManager* objManager;
+@property (nonatomic, strong) HJMOPolicy* ownPolicy;
 
 
 -(HJMOHandler*)initWithOid:(id)oid_ url:(NSURL*)url_  objManager:objManager_;

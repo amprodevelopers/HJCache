@@ -17,7 +17,7 @@
 	
 }
 
-@property (nonatomic, retain) NSMutableArray* content;
-@property (nonatomic, retain) HJObjManager* imgMan;
+@property (nonatomic, strong) NSMutableArray* content;
+@property (nonatomic, strong) HJObjManager* imgMan;
 
 @end
