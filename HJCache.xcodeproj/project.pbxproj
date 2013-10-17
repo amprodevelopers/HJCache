@@ -364,6 +364,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Girish Shah (8QHB2V6TV9)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -371,6 +372,7 @@
 				GCC_PREFIX_HEADER = HJCache_Prefix.pch;
 				INFOPLIST_FILE = "HJCache-Info.plist";
 				PRODUCT_NAME = HJCache;
+				PROVISIONING_PROFILE = "E86D8670-6FF2-4288-823D-FED30350E68F";
 			};
 			name = Debug;
 		};
@@ -379,11 +381,13 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Girish Shah (8QHB2V6TV9)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = HJCache_Prefix.pch;
 				INFOPLIST_FILE = "HJCache-Info.plist";
 				PRODUCT_NAME = HJCache;
+				PROVISIONING_PROFILE = "E86D8670-6FF2-4288-823D-FED30350E68F";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

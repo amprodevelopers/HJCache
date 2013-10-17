@@ -254,11 +254,17 @@
 	NSURLRequest* request = [NSURLRequest requestWithURL:url 
 										  cachePolicy:NSURLRequestReloadIgnoringLocalCacheData 
 								          timeoutInterval:policy.urlTimeoutTime];
-	self.urlConn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    /**
+     Prakash: Inspired from http://stackoverflow.com/questions/1826913/delayed-uiimageview-rendering-in-uitableview
+     We now scheduling the connection on current run loop are result images will also load while user is scrolling.
+     */
+	self.urlConn = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:NO];
+    [self.urlConn scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
 	if (urlConn==nil) {
 		NSLog(@"HJMOHandler nil URLConnection for %@",url);
 		state=stateFailed;
 	} else {
+        [self.urlConn start];
 		state=stateLoading;
 		//TODO if app is showing a network activity monitor in the status bar, here is where a call needs to be 
 		// made to increment the number of active URLs
